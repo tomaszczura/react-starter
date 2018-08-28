@@ -1,14 +1,15 @@
 import HtmlWebPackPlugin from 'html-webpack-plugin';
 import { resolve, join } from 'path';
+import baseConfig from './webpack.base.config.babel';
 
 const appPath = resolve(__dirname, 'src');
 
 module.exports = {
+  ...baseConfig,
+
   devtool: 'eval', // Enable line-based sourcemaps
   entry: [
     'babel-polyfill',
-    // 'react-hot-loader/patch',
-    // 'isomorphic-fetch',
     './src/index.js'
   ],
   output: {
@@ -35,39 +36,6 @@ module.exports = {
     },
   },
 
-  module: {
-    rules: [
-      {
-        enforce: 'pre',
-        test: /\.js$/,
-        exclude: /node_modules/,
-        loader: 'eslint-loader',
-      },
-      {
-        test: /\.js?$/,
-        include: [appPath],
-        use: [
-          {
-            loader: 'babel-loader',
-          },
-        ],
-      },
-      {
-        test: /\.scss$/,
-        use: [
-          {
-            loader: 'style-loader' // creates style nodes from JS strings
-          },
-          {
-            loader: 'css-loader' // translates CSS into CommonJS
-          },
-          {
-            loader: 'sass-loader' // compiles Sass to CSS
-          }
-        ]
-      }
-    ],
-  },
   plugins: [
     new HtmlWebPackPlugin({
       inject: 'body',
